@@ -1,54 +1,58 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { SignInDTO, SignUpDTO } from './dtos/auth.js';
-import { PrismaService } from '../prisma/prisma.service.js';
-import bcrypt from 'bcrypt';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { SignInDTO, SignUpDTO, UserResponse } from './auth.types.js';
 import { JwtService } from '@nestjs/jwt';
+import { AuthInterface } from './auth.interface.js';
+import { CryptoInterface } from '../core/crypto/crypto.interface.js';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prismaService: PrismaService,
     private jwtService: JwtService,
+    @Inject('IAuthRepository')
+    private readonly authInterface: AuthInterface,
+    private readonly cryptoInterface: CryptoInterface,
   ) {}
-  async signup(data: SignUpDTO) {
-    if (!data) {
+
+  //SIGN-IN SERVICE
+
+  async signup(signUp: SignUpDTO) {
+    if (!signUp) {
       throw new Error('Fields cannot be empty.');
     }
-    const userAlreadyExists = await this.prismaService.user.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
+    const userAlreadyExists = await this.authInterface.findByEmail(
+      signUp.email,
+    );
 
     if (userAlreadyExists) {
       throw new UnauthorizedException('User already exists.');
     }
 
-    const hashPassword = await bcrypt.hash(data.password, 10);
+    const hashPassword = await this.cryptoInterface.hash(signUp.password);
 
-    const user = await this.prismaService.user.create({
-      data: {
-        ...data,
-        password: hashPassword,
-      },
+    const user = await this.authInterface.create({
+      name: signUp.name,
+      email: signUp.email,
+      password: hashPassword,
     });
-    return (user.id, user.email, user.name);
+    return user;
   }
 
-  async signin(data: SignInDTO) {
-    if (!data) {
+  //SIGN-UP SERVICE
+
+  async signin(signIn: SignInDTO) {
+    if (!signIn) {
       throw new Error('Fields cannot be empty.');
     }
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        email: data.email,
-      },
-    });
+    const user = await this.authInterface.findByEmail(signIn.email);
+
     if (!user) {
       throw new UnauthorizedException('User already exists.');
     }
 
-    const isPasswordMatch = await bcrypt.compare(data.password, user.password);
+    const isPasswordMatch = await this.cryptoInterface.compare(
+      signIn.password,
+      user.password,
+    );
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid password.');
     }

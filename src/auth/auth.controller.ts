@@ -6,7 +6,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { SignUpDTO, SignInDTO } from './dtos/auth.js';
+import type { SignUpDTO, SignInDTO, UserResponse } from './auth.types.js';
 import { AuthService } from './auth.service.js';
 import { AuthGuard } from './auth.guard.js';
 
