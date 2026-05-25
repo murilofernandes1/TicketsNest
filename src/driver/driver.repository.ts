@@ -1,21 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../core/prisma/prisma.service.js';
-import { SignUpDTO } from '../types/auth.types.js';
+import type { DriverDTO, DriverResponse } from '../types/driver.types.js';
 
 @Injectable()
-export class AuthRepository {
+export class DriverRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: SignUpDTO): Promise<SignUpDTO> {
-    return this.prisma.user.create({ data });
-  }
-
-  async findByEmail(email: string) {
-    return this.prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
+  async create(data: DriverDTO): Promise<DriverDTO> {
+    return this.prisma.driver.create({ data });
   }
 
   async findDriverByEmail(email: string) {

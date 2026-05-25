@@ -10,13 +10,14 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '../guards/auth.guard.js';
 import { UserService } from './user.service.js';
-import { Role } from './user.types.js';
-import type { UserResponse } from './user.types.js';
+import { Role } from '../types/user.types.js';
+import type { UserResponse } from '../types/user.types.js';
 import { CurrentUser } from '../decorators/user.decorator.js';
 import { Roles } from '../decorators/role.decorator.js';
+import { RolesGuard } from '../guards/role.guard.js';
 
 @Controller('user')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

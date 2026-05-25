@@ -6,6 +6,8 @@ import { AuthController } from './auth.controller.js';
 import { AuthService } from './auth.service.js';
 import { jwtConstants } from '../constants/jwt.contants.js';
 import { CryptoModule } from '../core/crypto/crypto.module.js';
+import { DriverRepository } from '../driver/driver.repository.js';
+import { DriverService } from '../driver/driver.service.js';
 
 @Module({
   imports: [
@@ -22,6 +24,11 @@ import { CryptoModule } from '../core/crypto/crypto.module.js';
     {
       provide: 'IAuthRepository',
       useClass: AuthRepository,
+    },
+    DriverService,
+    {
+      provide: 'IDriverRepository',
+      useClass: DriverRepository,
     },
   ],
 })

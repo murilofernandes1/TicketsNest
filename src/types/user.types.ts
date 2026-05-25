@@ -3,6 +3,7 @@ export type User = {
   name: string;
   email: string;
   role: Role;
+  type: UserTypes;
 };
 
 export type UserResponse = {
@@ -24,4 +25,8 @@ export type UserRoles = UserResponse & {
 export enum Role {
   ADMIN = 'ADMIN',
   USER = 'USER',
+}
+export enum UserTypes {
+  USER = 'USER',
+  DRIVER = 'DRIVER',
 }

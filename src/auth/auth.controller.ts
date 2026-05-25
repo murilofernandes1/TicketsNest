@@ -1,31 +1,32 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
-import type { SignUpDTO, SignInDTO, UserResponse } from './auth.types.js';
+import { Body, Controller, Post } from '@nestjs/common';
+import type {
+  SignUpDTO,
+  SignInDTO,
+  UserResponse,
+} from '../types/auth.types.js';
 import { AuthService } from './auth.service.js';
-import { AuthGuard } from '../guards/auth.guard.js';
+import { Public } from '../decorators/public.decorator.js';
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
+
+  @Public()
   @Post('signup')
   async signup(@Body() body: SignUpDTO) {
     return this.authService.signup(body);
   }
 
+  @Public()
   @Post('signin')
   async signin(@Body() body: SignInDTO) {
     return this.authService.signin(body);
   }
 
-  @UseGuards(AuthGuard)
-  @Get('me')
-  async me(@Request() request) {
-    return request.user.id;
+  @Public()
+  @Post('driver/signin')
+  async driverSignIn(@Body() body: SignInDTO) {
+    return this.authService.driverSignIn(body);
   }
 }

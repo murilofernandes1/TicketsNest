@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
-import type { Role, UserResponse } from './user.types.js';
+import type { Role, UserResponse } from '../types/user.types.js';
 import { UserInterface } from './user.interface.js';
+
 @Injectable()
 export class UserService {
   constructor(

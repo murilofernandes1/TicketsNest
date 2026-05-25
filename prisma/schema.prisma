@@ -13,19 +13,19 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      String   @default("ADMIN")
+  role      String   @default("USER")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Driver {
-  id           String  @id @default(ulid())
+  id           String @id @default(ulid())
   name         String
-  email        String  @unique
+  email        String @unique
   password     String
-  status       String? @default("ACTIVE")
-  licensePlate String?
-  phone        Int     @unique
+  status       String @default("ACTIVE")
+  licensePlate String
+  phone        Int    @unique
 
   deliveries Delivery[]
   routes     Route[]

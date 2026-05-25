@@ -1,15 +1,22 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { SignInDTO, SignUpDTO, UserResponse } from './auth.types.js';
+import { SignInDTO, SignUpDTO } from '../types/auth.types.js';
 import { JwtService } from '@nestjs/jwt';
 import { AuthInterface } from './auth.interface.js';
 import { CryptoInterface } from '../core/crypto/crypto.interface.js';
+import { compare } from 'bcrypt';
+import { DriverInterface } from '../driver/driver.interface.js';
 
 @Injectable()
 export class AuthService {
   constructor(
     private jwtService: JwtService,
+
     @Inject('IAuthRepository')
     private readonly authInterface: AuthInterface,
+
+    @Inject('IDriverRepository')
+    private readonly driverInterface: DriverInterface,
+
     private readonly cryptoInterface: CryptoInterface,
   ) {}
 
@@ -44,7 +51,7 @@ export class AuthService {
     const user = await this.authInterface.findByEmail(signIn.email);
 
     if (!user) {
-      throw new UnauthorizedException('User already exists.');
+      throw new Error('User not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(
@@ -60,6 +67,39 @@ export class AuthService {
       email: user.email,
       name: user.name,
       role: user.role,
+      type: 'USER',
+    });
+
+    return acessToken;
+  }
+
+  //DRIVER SIGN-IN
+  async driverSignIn(driverSignIn: SignInDTO) {
+    if (!driverSignIn) {
+      throw new Error('Fields cannot be empty.');
+    }
+    const driver = await this.driverInterface.findDriverByEmail(
+      driverSignIn.email,
+    );
+
+    if (!driver) {
+      throw new Error('User not found.');
+    }
+
+    const isPasswordMatch = await this.cryptoInterface.compare(
+      driverSignIn.password,
+      driver.password,
+    );
+
+    if (!isPasswordMatch) {
+      throw new UnauthorizedException('Invalid password');
+    }
+
+    const acessToken = await this.jwtService.signAsync({
+      id: driver.id,
+      email: driver.email,
+      name: driver.name,
+      type: 'DRIVER',
     });
 
     return acessToken;

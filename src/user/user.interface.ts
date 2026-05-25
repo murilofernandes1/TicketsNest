@@ -1,4 +1,4 @@
-import { Role, UserResponse } from './user.types.js';
+import { Role, UserResponse } from '../types/user.types.js';
 
 export abstract class UserInterface {
   abstract updateUserRole(id: string, role: Role): Promise<Role>;
