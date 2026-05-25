@@ -13,8 +13,7 @@ export class AuthService {
     private readonly cryptoInterface: CryptoInterface,
   ) {}
 
-  //SIGN-IN SERVICE
-
+  //SIGN-UP SERVICE
   async signup(signUp: SignUpDTO) {
     if (!signUp) {
       throw new Error('Fields cannot be empty.');
@@ -37,8 +36,7 @@ export class AuthService {
     return user;
   }
 
-  //SIGN-UP SERVICE
-
+  //SIGN-IN SERVICE
   async signin(signIn: SignInDTO) {
     if (!signIn) {
       throw new Error('Fields cannot be empty.');
@@ -61,6 +59,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
       name: user.name,
+      role: user.role,
     });
 
     return acessToken;

@@ -14,4 +14,5 @@ export type UserResponse = {
   name: string;
   email: string;
   password: string;
+  role: string;
 };

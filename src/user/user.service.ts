@@ -12,7 +12,12 @@ export class UserService {
     if (!role) {
       throw new Error('Invalid fields');
     }
-    const updateUserRole = await this.userInterface.updateUserRole(id, role);
-    return updateUserRole;
+    await this.userInterface.updateUserRole(id, role);
+    return 'Role updated with success.';
+  }
+
+  async getMe(id: string) {
+    const me = await this.userInterface.getMe(id);
+    return me;
   }
 }

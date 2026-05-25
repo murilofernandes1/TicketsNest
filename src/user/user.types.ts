@@ -1,3 +1,10 @@
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: Role;
+};
+
 export type UserResponse = {
   id: string;
   name: string;
@@ -10,6 +17,11 @@ export type UpdateRole = {
   role: Role;
 };
 
-export type Role = UserResponse & {
-  role: 'ADMIN' | 'MANAGER' | 'ANALIST';
+export type UserRoles = UserResponse & {
+  role: 'ADMIN' | 'USER';
 };
+
+export enum Role {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+}
