@@ -1,4 +1,10 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { SignInDTO, SignUpDTO } from '../types/auth.types.js';
 import { JwtService } from '@nestjs/jwt';
 import { AuthInterface } from './auth.interface.js';
@@ -23,7 +29,7 @@ export class AuthService {
   //SIGN-UP SERVICE
   async signup(signUp: SignUpDTO) {
     if (!signUp) {
-      throw new Error('Fields cannot be empty.');
+      throw new BadRequestException();
     }
     const userAlreadyExists = await this.authInterface.findByEmail(
       signUp.email,
@@ -46,12 +52,12 @@ export class AuthService {
   //SIGN-IN SERVICE
   async signin(signIn: SignInDTO) {
     if (!signIn) {
-      throw new Error('Fields cannot be empty.');
+      throw new BadRequestException();
     }
     const user = await this.authInterface.findByEmail(signIn.email);
 
     if (!user) {
-      throw new Error('User not found.');
+      throw new NotFoundException('User not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(
@@ -76,14 +82,14 @@ export class AuthService {
   //DRIVER SIGN-IN
   async driverSignIn(driverSignIn: SignInDTO) {
     if (!driverSignIn) {
-      throw new Error('Fields cannot be empty.');
+      throw new BadRequestException();
     }
     const driver = await this.driverInterface.findDriverByEmail(
       driverSignIn.email,
     );
 
     if (!driver) {
-      throw new Error('User not found.');
+      throw new NotFoundException('User not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(

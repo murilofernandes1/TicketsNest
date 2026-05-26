@@ -1,5 +1,5 @@
 export type RouteDTO = {
-  driverId: string;
+  driverId?: string;
 };
 
 export type AttributeRoute = {
@@ -15,7 +15,7 @@ export interface UpdateStatus {
 export type RouteResponse = {
   id: string;
   status: string;
-  driverId?: string;
+  driverId: string | null;
   createdAt: Date;
   deliveries?: [];
 };

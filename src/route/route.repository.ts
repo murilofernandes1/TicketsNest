@@ -14,7 +14,9 @@ export class RouteRepository implements RouteInterface {
 
   async create(data: RouteDTO): Promise<RouteResponse> {
     return this.prisma.route.create({
-      data: { driverId: data.driverId },
+      data: {
+        driverId: data.driverId ?? null, // Sem a interrogação
+      },
     });
   }
 

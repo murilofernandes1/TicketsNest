@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import type { UserRoles, UserResponse } from '../types/user.types.js';
 import { UserInterface } from './user.interface.js';
 
@@ -11,10 +11,10 @@ export class UserService {
 
   async updateUserRole(id: string, role: UserRoles) {
     if (!role) {
-      throw new Error('Invalid fields');
+      throw new BadRequestException();
     }
-    await this.userInterface.updateUserRole(id, role);
-    return 'Role updated with success.';
+    const updatedRole = await this.userInterface.updateUserRole(id, role);
+    return updatedRole;
   }
 
   async getMe(id: string) {

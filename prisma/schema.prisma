@@ -70,8 +70,8 @@ model Route {
   id     String @id @default(uuid())
   status String @default("OPEN")
 
-  driverId   String
-  driver     Driver     @relation(fields: [driverId], references: [id])
+  driverId   String?
+  driver     Driver?    @relation(fields: [driverId], references: [id])
   deliveries Delivery[]
 
   createdAt DateTime @default(now())

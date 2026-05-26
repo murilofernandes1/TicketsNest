@@ -1,9 +1,30 @@
 import { Module } from '@nestjs/common';
-import { RouteController } from './route.controller';
-import { RouteService } from './route.service';
-
+import { RouteController } from './route.controller.js';
+import { RouteService } from './route.service.js';
+import { RouteRepository } from './route.repository.js';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from '../guards/auth.guard.js';
+import { RolesGuard } from '../guards/role.guard.js';
+import { DriverModule } from '../driver/driver.module.js';
 @Module({
+  imports: [DriverModule],
+  providers: [
+    RouteService,
+    {
+      provide: 'IRouteRepository',
+      useClass: RouteRepository,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+    RouteRepository,
+  ],
   controllers: [RouteController],
-  providers: [RouteService]
+  exports: [RouteService, 'IRouteRepository'],
 })
 export class RouteModule {}

@@ -1,4 +1,10 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CryptoInterface } from '../core/crypto/crypto.interface.js';
 import { DriverInterface } from './driver.interface.js';
 import { DriverDTO } from '../types/driver.types.js';
@@ -13,7 +19,7 @@ export class DriverService {
 
   async create(driverDto: DriverDTO) {
     if (!driverDto) {
-      throw new Error('Fields cannot be empty.');
+      throw new BadRequestException();
     }
 
     const driverAlreadyExists = await this.driverInterface.findDriverByEmail(
@@ -36,12 +42,12 @@ export class DriverService {
 
   async getDriver(id: string) {
     if (!id) {
-      throw new Error('Id not provided.');
+      throw new BadRequestException();
     }
     const driver = await this.driverInterface.seeDriver(id);
 
     if (!driver) {
-      throw new Error('Driver not found.');
+      throw new NotFoundException();
     }
     return driver;
   }
