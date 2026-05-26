@@ -27,8 +27,7 @@ model Driver {
   licensePlate String
   phone        Int    @unique
 
-  deliveries Delivery[]
-  routes     Route[]
+  routes Route[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -47,13 +46,9 @@ model Delivery {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @default(now())
 
-  // DRIVER RELATION
-  driverId String
-  driver   Driver @relation(fields: [driverId], references: [id])
-
   // ROUTE RELATION
-  routeId String
-  route   Route  @relation(fields: [routeId], references: [id])
+  routeId String?
+  route   Route?  @relation(fields: [routeId], references: [id])
 
   // OWN HISTORY RELATION
   deliveryHistory DeliveryHistory[]
@@ -68,15 +63,17 @@ model DeliveryHistory {
   ocurrenceDescription String?
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model Route {
   id     String @id @default(uuid())
-  status String
+  status String @default("OPEN")
 
   driverId   String
   driver     Driver     @relation(fields: [driverId], references: [id])
   deliveries Delivery[]
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
