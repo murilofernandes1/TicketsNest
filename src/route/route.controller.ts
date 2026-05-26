@@ -22,6 +22,7 @@ import type {
 
 @Controller('route')
 @UseGuards(AuthGuard, RolesGuard, TypeGuard)
+@Roles('ADMIN')
 export class RouteController {
   constructor(private routeService: RouteService) {}
 

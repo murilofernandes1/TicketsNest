@@ -29,8 +29,10 @@ export interface DeliveryResponse {
 
 export interface UpdateDeliveryStatus {
   id: string;
-  status: Status;
+  status: DeliveryStatus;
 }
 export type UpdateDeliveryDTO = Partial<DeliveryDTO>;
 
-export type Status = 'PENDING' | 'IN_ROUTE' | 'DELIVERED';
+export type DeliveryStatus = 'PENDING' | 'IN_ROUTE' | 'DELIVERED';
+
+export type CreateDelivery = Omit<DeliveryDTO, 'id' | 'code'>;

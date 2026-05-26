@@ -9,22 +9,20 @@ import { Roles } from '../decorators/role.decorator.js';
 
 @Controller('driver')
 @UseGuards(AuthGuard, RolesGuard, TypeGuard)
+@Roles('ADMIN')
 export class DriverController {
   constructor(private driverService: DriverService) {}
 
-  @Roles('ADMIN')
   @Post('create')
   async create(@Body() body: DriverDTO) {
     return this.driverService.create(body);
   }
 
-  @Roles('ADMIN')
   @Get('/:id')
   async getDriver(@Param('id') id: string) {
     return this.driverService.getDriver(id);
   }
 
-  @Roles('ADMIN')
   @Get('/')
   async allDrivers() {
     return this.driverService.allDrivers();
