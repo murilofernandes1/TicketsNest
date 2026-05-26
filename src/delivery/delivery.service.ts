@@ -26,7 +26,7 @@ export class DeliveryService {
 
     const delivery = await this.deliveryInterface.createDelivery({
       ...data,
-      status: code,
+      code: code,
     });
 
     return delivery;
@@ -58,6 +58,7 @@ export class DeliveryService {
     if (!delivery) {
       throw new NotFoundException('Delivery not found.');
     }
+    return delivery;
   }
 
   async updateDeliveryStatus(data: UpdateDeliveryStatus) {
@@ -95,6 +96,7 @@ export class DeliveryService {
     if (!updatedDelivery) {
       throw new BadRequestException('Invalid data.');
     }
+    return updatedDelivery;
   }
 
   async cancelDelivery(id: string) {
@@ -104,6 +106,8 @@ export class DeliveryService {
       throw new NotFoundException('Delivery not found.');
     }
 
-    return await this.deliveryInterface.cancelDelivery(id);
+    await this.deliveryInterface.cancelDelivery(id);
+
+    return {};
   }
 }
