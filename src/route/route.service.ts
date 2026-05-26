@@ -73,7 +73,8 @@ export class RouteService {
     if (!route) {
       throw new NotFoundException('Route not found');
     }
-    return await this.routeInterface.deleteRoute(id);
+    await this.routeInterface.deleteRoute(id);
+    return {};
   }
 
   async attributeRoute(data: AttributeRoute) {

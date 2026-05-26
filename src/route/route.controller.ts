@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Get, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Post,
+  Get,
+  Patch,
+  Delete,
+} from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../guards/auth.guard.js';
 import { RolesGuard } from '../guards/role.guard.js';
@@ -46,5 +54,10 @@ export class RouteController {
     @Body() body: { driverId: AttributeRoute['driverId'] },
   ) {
     return this.routeService.attributeRoute({ id, driverId: body.driverId });
+  }
+
+  @Delete('/:id')
+  async deleteRoute(@Param('id') id: string) {
+    return this.routeService.deleteRoute(id);
   }
 }
