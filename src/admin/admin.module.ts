@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller.js';
-import { UserRepository } from './user.repository.js';
-import { UserService } from './user.service.js';
+import { AdminController } from './admin.controller.js';
+import { AdminRepository } from './admin.repository.js';
+import { AdminService } from './admin.service.js';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from '../guards/role.guard.js';
 import { AuthGuard } from '../guards/auth.guard.js';
 
 @Module({
   providers: [
-    UserService,
+    AdminService,
     {
-      provide: 'IUserRepository',
-      useClass: UserRepository,
+      provide: 'IAdminRepository',
+      useClass: AdminRepository,
     },
     {
       provide: APP_GUARD,
@@ -21,8 +21,8 @@ import { AuthGuard } from '../guards/auth.guard.js';
       provide: APP_GUARD,
       useClass: RolesGuard,
     },
-    UserRepository,
+    AdminRepository,
   ],
-  controllers: [UserController],
+  controllers: [AdminController],
 })
-export class UserModule {}
+export class AdminModule {}

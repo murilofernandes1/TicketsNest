@@ -1,7 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { UserTypes } from '../types/user.types.js';
-import type { User } from '../types/user.types.js';
+import { Admin } from '../types/admin.types.js';
 import { TYPES_KEY } from '../decorators/type.decorator.js';
 
 @Injectable()
@@ -18,7 +17,7 @@ export class TypeGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
-    const user: User = request.user;
+    const user: Admin = request.user;
 
     return user && requiredTypes.includes(user.type);
   }

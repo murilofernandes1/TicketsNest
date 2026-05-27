@@ -31,22 +31,22 @@ export class AuthService {
     if (!signUp) {
       throw new BadRequestException();
     }
-    const userAlreadyExists = await this.authInterface.findByEmail(
+    const adminAlreadyExists = await this.authInterface.findByEmail(
       signUp.email,
     );
 
-    if (userAlreadyExists) {
-      throw new UnauthorizedException('User already exists.');
+    if (adminAlreadyExists) {
+      throw new UnauthorizedException('Admin already exists.');
     }
 
     const hashPassword = await this.cryptoInterface.hash(signUp.password);
 
-    const user = await this.authInterface.create({
+    const admin = await this.authInterface.create({
       name: signUp.name,
       email: signUp.email,
       password: hashPassword,
     });
-    return user;
+    return admin;
   }
 
   //SIGN-IN SERVICE
@@ -54,25 +54,25 @@ export class AuthService {
     if (!signIn) {
       throw new BadRequestException();
     }
-    const user = await this.authInterface.findByEmail(signIn.email);
+    const admin = await this.authInterface.findByEmail(signIn.email);
 
-    if (!user) {
-      throw new NotFoundException('User not found.');
+    if (!admin) {
+      throw new NotFoundException('Admin not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(
       signIn.password,
-      user.password,
+      admin.password,
     );
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid password.');
     }
 
     const acessToken = await this.jwtService.signAsync({
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      role: user.role,
+      id: admin.id,
+      email: admin.email,
+      name: admin.name,
+      role: admin.role,
       type: 'USER',
     });
 
@@ -89,7 +89,7 @@ export class AuthService {
     );
 
     if (!driver) {
-      throw new NotFoundException('User not found.');
+      throw new NotFoundException('Admin not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(

@@ -1,22 +1,22 @@
-export type RouteDTO = {
+export class RouteDTO {
   driverId?: string;
-};
+}
 
-export type AssignRoute = {
+export class AssignRoute {
   driverId: string;
   id: string;
-};
+}
 
-export interface UpdateStatus {
+export class UpdateStatus {
   status: Status;
   id: string;
 }
 
-export type RouteResponse = {
+export class RouteResponse {
   id: string;
   status: string;
   driverId: string | null;
   createdAt: Date;
   deliveries?: [];
-};
+}
 export type Status = 'OPEN' | 'IN_PROGRESS' | 'CLOSED' | 'CANCELLED';

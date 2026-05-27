@@ -22,7 +22,7 @@ export class DriverService {
     );
 
     if (driverAlreadyExists) {
-      throw new UnauthorizedException('User already exists.');
+      throw new UnauthorizedException('Admin already exists.');
     }
 
     const hashPassword = await this.cryptoInterface.hash(driverDto.password);

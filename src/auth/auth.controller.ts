@@ -1,9 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import type {
-  SignUpDTO,
-  SignInDTO,
-  UserResponse,
-} from '../types/auth.types.js';
+import { SignUpDTO, SignInDTO, AdminResponse } from '../types/auth.types.js';
 import { AuthService } from './auth.service.js';
 import { Public } from '../decorators/public.decorator.js';
 

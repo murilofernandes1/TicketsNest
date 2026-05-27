@@ -1,18 +1,25 @@
-export type SignUpDTO = {
+import { ApiProperty } from '@nestjs/swagger';
+
+export class SignUpDTO {
+  @ApiProperty({ example: 'Nome do Usuario' })
   name: string;
+  @ApiProperty({ example: 'usuario@email.com' })
   email: string;
+  @ApiProperty({ example: '123456' })
   password: string;
-};
+}
 
-export type SignInDTO = {
+export class SignInDTO {
+  @ApiProperty({ example: 'usuario@email.com' })
   email: string;
+  @ApiProperty({ example: '123456' })
   password: string;
-};
+}
 
-export type UserResponse = {
+export class AdminResponse {
   id: string;
   name: string;
   email: string;
   password: string;
   role: string;
-};
+}

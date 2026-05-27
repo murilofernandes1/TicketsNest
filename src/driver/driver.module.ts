@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { DriverService } from './driver.service.js';
 import { DriverRepository } from './driver.repository.js';
 import { DriverController } from './driver.controller.js';
@@ -9,7 +9,7 @@ import { CryptoModule } from '../core/crypto/crypto.module.js';
 import { RouteModule } from '../route/route.module.js';
 
 @Module({
-  imports: [CryptoModule, RouteModule],
+  imports: [CryptoModule, forwardRef(() => RouteModule)],
   providers: [
     DriverService,
     {
