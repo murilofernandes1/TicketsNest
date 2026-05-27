@@ -11,20 +11,21 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../guards/auth.guard.js';
 import { RolesGuard } from '../guards/role.guard.js';
 import { TypeGuard } from '../guards/type.guard.js';
-import { Roles } from '../decorators/role.decorator.js';
 import { RouteService } from './route.service.js';
 import type {
-  AttributeRoute,
+  AssignRoute,
   RouteDTO,
   Status,
   UpdateStatus,
 } from '../types/route.types.js';
+import { Types } from '../decorators/type.decorator.js';
 
-@Controller('route')
+@Controller('routes')
 @UseGuards(AuthGuard, RolesGuard, TypeGuard)
-@Roles('ADMIN')
 export class RouteController {
   constructor(private routeService: RouteService) {}
+
+  // USER / ADMIN ROUTES
 
   @Post('create')
   async create(@Body() body: RouteDTO) {
@@ -41,20 +42,12 @@ export class RouteController {
     return this.routeService.allRoutes();
   }
 
-  @Patch('/:id/status')
-  async updateStatus(
-    @Param('id') id: UpdateStatus['id'],
-    @Body() body: { status: UpdateStatus['status'] },
+  @Patch('/:id/assign')
+  async assignRoute(
+    @Param('id') id: AssignRoute['id'],
+    @Body() body: { driverId: AssignRoute['driverId'] },
   ) {
-    return this.routeService.updateStatus({ id, status: body.status });
-  }
-
-  @Patch('/:id/attribute')
-  async attributeRoute(
-    @Param('id') id: AttributeRoute['id'],
-    @Body() body: { driverId: AttributeRoute['driverId'] },
-  ) {
-    return this.routeService.attributeRoute({ id, driverId: body.driverId });
+    return this.routeService.assignRoute({ id, driverId: body.driverId });
   }
 
   @Delete('/:id')

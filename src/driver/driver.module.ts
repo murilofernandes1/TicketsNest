@@ -6,9 +6,10 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from '../guards/role.guard.js';
 import { AuthGuard } from '../guards/auth.guard.js';
 import { CryptoModule } from '../core/crypto/crypto.module.js';
+import { RouteModule } from '../route/route.module.js';
 
 @Module({
-  imports: [CryptoModule],
+  imports: [CryptoModule, RouteModule],
   providers: [
     DriverService,
     {

@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Inject,
   Injectable,
   NotFoundException,
@@ -18,10 +17,6 @@ export class DriverService {
   ) {}
 
   async create(driverDto: DriverDTO) {
-    if (!driverDto) {
-      throw new BadRequestException();
-    }
-
     const driverAlreadyExists = await this.driverInterface.findDriverByEmail(
       driverDto.email,
     );
@@ -41,9 +36,6 @@ export class DriverService {
   }
 
   async getDriver(id: string) {
-    if (!id) {
-      throw new BadRequestException();
-    }
     const driver = await this.driverInterface.seeDriver(id);
 
     if (!driver) {

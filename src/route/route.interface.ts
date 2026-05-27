@@ -1,6 +1,6 @@
 import { Status } from '../types/driver.types.js';
 import {
-  AttributeRoute,
+  AssignRoute,
   RouteDTO,
   RouteResponse,
   UpdateStatus,
@@ -10,7 +10,9 @@ export abstract class RouteInterface {
   abstract create(data?: RouteDTO): Promise<RouteResponse>;
   abstract seeRoute(id: string): Promise<RouteResponse | null>;
   abstract allRoutes(): Promise<RouteResponse[] | null>;
-  abstract attributeRoute(data: AttributeRoute): Promise<RouteResponse>;
-  abstract updateStatus(data: UpdateStatus): Promise<RouteResponse>;
+  abstract assignRoute(data: AssignRoute): Promise<RouteResponse>;
   abstract deleteRoute(id: string);
+
+  abstract myRoutes(id: string): Promise<RouteResponse[] | null>;
+  abstract updateStatus(data: UpdateStatus): Promise<RouteResponse>;
 }

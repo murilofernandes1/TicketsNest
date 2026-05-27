@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { RouteInterface } from './route.interface.js';
 import { PrismaService } from '../core/prisma/prisma.service.js';
 import {
-  AttributeRoute,
+  AssignRoute,
   RouteDTO,
   RouteResponse,
   UpdateStatus,
@@ -15,7 +15,7 @@ export class RouteRepository implements RouteInterface {
   async create(data: RouteDTO): Promise<RouteResponse> {
     return this.prisma.route.create({
       data: {
-        driverId: data.driverId ?? null, // Sem a interrogação
+        driverId: data.driverId ?? null,
       },
     });
   }
@@ -30,7 +30,7 @@ export class RouteRepository implements RouteInterface {
     return this.prisma.route.findMany();
   }
 
-  async attributeRoute(data: AttributeRoute): Promise<RouteResponse> {
+  async assignRoute(data: AssignRoute): Promise<RouteResponse> {
     return this.prisma.route.update({
       where: { id: data.id },
       data: { driverId: data.driverId },
@@ -48,6 +48,14 @@ export class RouteRepository implements RouteInterface {
     return this.prisma.route.delete({
       where: {
         id: id,
+      },
+    });
+  }
+
+  async myRoutes(id: string): Promise<RouteResponse[] | null> {
+    return this.prisma.route.findMany({
+      where: {
+        driverId: id,
       },
     });
   }

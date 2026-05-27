@@ -33,6 +33,6 @@ export interface UpdateDeliveryStatus {
 }
 export type UpdateDeliveryDTO = Partial<DeliveryDTO>;
 
-export type DeliveryStatus = 'PENDING' | 'IN_ROUTE' | 'DELIVERED';
+export type DeliveryStatus = 'PENDING' | 'IN_ROUTE' | 'DELIVERED' | 'REFUSED';
 
 export type CreateDelivery = Omit<DeliveryDTO, 'id' | 'code'>;

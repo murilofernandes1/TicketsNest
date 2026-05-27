@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { RouteInterface } from './route.interface.js';
 import {
-  AttributeRoute,
+  AssignRoute,
   RouteDTO,
   RouteResponse,
   UpdateStatus,
@@ -77,7 +77,7 @@ export class RouteService {
     return {};
   }
 
-  async attributeRoute(data: AttributeRoute) {
+  async assignRoute(data: AssignRoute) {
     const driver = await this.driverInterface.seeDriver(data.driverId);
     if (!driver) {
       throw new NotFoundException('Driver not found');
@@ -87,6 +87,16 @@ export class RouteService {
       throw new NotFoundException('Route not found.');
     }
 
-    return await this.routeInterface.attributeRoute(data);
+    return await this.routeInterface.assignRoute(data);
+  }
+
+  async myRoutes(id: string) {
+    const myRoutes = await this.routeInterface.myRoutes(id);
+
+    if (!myRoutes) {
+      return {};
+    }
+
+    return myRoutes;
   }
 }

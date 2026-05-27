@@ -2,7 +2,7 @@ export type RouteDTO = {
   driverId?: string;
 };
 
-export type AttributeRoute = {
+export type AssignRoute = {
   driverId: string;
   id: string;
 };

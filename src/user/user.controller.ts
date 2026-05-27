@@ -16,7 +16,7 @@ import { Roles } from '../decorators/role.decorator.js';
 import { RolesGuard } from '../guards/role.guard.js';
 import type { UserRoles } from '../types/user.types.js';
 
-@Controller('user')
+@Controller('admin')
 @UseGuards(AuthGuard, RolesGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}

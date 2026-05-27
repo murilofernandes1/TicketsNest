@@ -19,7 +19,7 @@ import type {
 } from '../types/delivery.types.js';
 import { DeliveryService } from './delivery.service.js';
 
-@Controller('delivery')
+@Controller('deliveries')
 @UseGuards(AuthGuard, RolesGuard, TypeGuard)
 @Roles('ADMIN')
 export class DeliveryController {
