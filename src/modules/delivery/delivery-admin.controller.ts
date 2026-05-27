@@ -9,20 +9,20 @@ import {
   Param,
 } from '@nestjs/common';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
-import { RolesGuard } from '../../common/guards/role.guard.js';
 import { TypeGuard } from '../../common/guards/type.guard.js';
 import { Roles } from '../../common/decorators/role.decorator.js';
 import type {
   DeliveryDTO,
-  DeliveryStatus,
   UpdateDeliveryDTO,
 } from '../../common/types/delivery.types.js';
 import { DeliveryService } from './delivery.service.js';
+import { Types } from '../../common/decorators/type.decorator.js';
 
-@Controller('deliveries')
-@UseGuards(AuthGuard, RolesGuard, TypeGuard)
-@Roles('ADMIN')
-export class DeliveryController {
+@Controller('admin/deliveries')
+@UseGuards(AuthGuard, TypeGuard)
+@UseGuards(AuthGuard)
+@Types('USER')
+export class DeliveryAdminController {
   constructor(private deliveryService: DeliveryService) {}
 
   @Post('create')
@@ -41,17 +41,6 @@ export class DeliveryController {
       return this.deliveryService.seeDeliveryByCode(id);
     }
     return this.deliveryService.seeDelivery(id);
-  }
-
-  @Patch('/:id/status')
-  async updateDeliveryStatus(
-    @Param('id') id: string,
-    @Body() body: { status: DeliveryStatus },
-  ) {
-    return this.deliveryService.updateDeliveryStatus({
-      id,
-      status: body.status,
-    });
   }
 
   @Patch('/:id')

@@ -9,14 +9,16 @@ import {
 } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
-import { RolesGuard } from '../../common/guards/role.guard.js';
 import { TypeGuard } from '../../common/guards/type.guard.js';
 import { RouteService } from './route.service.js';
 import type { AssignRoute, RouteDTO } from '../../common/types/route.types.js';
+import { Types } from '../../common/decorators/type.decorator.js';
 
-@Controller('routes')
-@UseGuards(AuthGuard, RolesGuard, TypeGuard)
-export class RouteController {
+@Controller('admin/routes')
+@UseGuards(AuthGuard, TypeGuard)
+@UseGuards(AuthGuard)
+@Types('USER')
+export class RouteAdminController {
   constructor(private routeService: RouteService) {}
 
   @Post('create')

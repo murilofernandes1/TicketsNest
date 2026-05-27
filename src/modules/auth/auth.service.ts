@@ -40,12 +40,12 @@ export class AuthService {
 
     const hashPassword = await this.cryptoInterface.hash(signUp.password);
 
-    const admin = await this.authInterface.create({
+    const user = await this.authInterface.create({
       name: signUp.name,
       email: signUp.email,
       password: hashPassword,
     });
-    return admin;
+    return user;
   }
 
   //SIGN-IN SERVICE
@@ -53,25 +53,24 @@ export class AuthService {
     if (!signIn) {
       throw new BadRequestException();
     }
-    const admin = await this.authInterface.findByEmail(signIn.email);
+    const user = await this.authInterface.findByEmail(signIn.email);
 
-    if (!admin) {
+    if (!user) {
       throw new NotFoundException('Admin not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(
       signIn.password,
-      admin.password,
+      user.password,
     );
     if (!isPasswordMatch) {
       throw new UnauthorizedException('Invalid password.');
     }
 
     const acessToken = await this.jwtService.signAsync({
-      id: admin.id,
-      email: admin.email,
-      name: admin.name,
-      role: admin.role,
+      id: user.id,
+      email: user.email,
+      name: user.name,
       type: 'USER',
     });
 
@@ -88,7 +87,7 @@ export class AuthService {
     );
 
     if (!driver) {
-      throw new NotFoundException('Admin not found.');
+      throw new NotFoundException('User not found.');
     }
 
     const isPasswordMatch = await this.cryptoInterface.compare(

@@ -52,7 +52,7 @@ export class RouteService {
     if (!data) {
       throw new BadRequestException();
     }
-    const route = await this.routeInterface.seeRoute(data.id);
+    const route = await this.routeInterface.seeRoute(data.routeId);
 
     if (!route) {
       throw new NotFoundException('Route not found.');

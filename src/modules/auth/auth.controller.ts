@@ -3,12 +3,10 @@ import { SignUpDTO, SignInDTO } from '../../common/types/auth.types.js';
 import { AuthService } from './auth.service.js';
 import { Public } from '../../common/decorators/public.decorator.js';
 
-@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Public()
   @Post('signup')
   async signup(@Body() body: SignUpDTO) {
     return this.authService.signup(body);

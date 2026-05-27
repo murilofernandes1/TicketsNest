@@ -12,14 +12,10 @@ import { AuthGuard } from '../../common/guards/auth.guard.js';
 import { AdminService } from './admin.service.js';
 import { CurrentUser } from '../../common/decorators/user.decorator.js';
 import { Roles } from '../../common/decorators/role.decorator.js';
-import { RolesGuard } from '../../common/guards/role.guard.js';
-import type {
-  AdminRoles,
-  AdminResponse,
-} from '../../common/types/admin.types.js';
+import type { AdminResponse } from '../../common/types/admin.types.js';
 
 @Controller('admin')
-@UseGuards(AuthGuard, RolesGuard)
+@UseGuards(AuthGuard)
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
@@ -27,12 +23,5 @@ export class AdminController {
   @HttpCode(HttpStatus.OK)
   async me(@CurrentUser('id') id): Promise<AdminResponse> {
     return this.adminService.getMe(id);
-  }
-
-  @Roles('ADMIN')
-  @Patch(':id/role')
-  @HttpCode(HttpStatus.OK)
-  async updateAdminRole(@Param('id') id: string, @Body() body: AdminRoles) {
-    return this.adminService.updateAdminRole(id, body);
   }
 }

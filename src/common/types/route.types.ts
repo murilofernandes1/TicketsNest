@@ -9,7 +9,7 @@ export class AssignRoute {
 
 export class UpdateStatus {
   status: Status;
-  id: string;
+  routeId: string;
 }
 
 export class RouteResponse {
@@ -19,4 +19,5 @@ export class RouteResponse {
   createdAt: Date;
   deliveries?: [];
 }
+
 export type Status = 'OPEN' | 'IN_PROGRESS' | 'CLOSED' | 'CANCELLED';

@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { DeliveryController } from './delivery.controller.js';
+import { DeliveryDriverController } from './delivery-driver.controller.js';
+import { DeliveryAdminController } from './delivery-admin.controller.js';
 import { DeliveryService } from './delivery.service.js';
 import { DeliveryRepository } from './delivery.repository.js';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
-import { RolesGuard } from '../../common/guards/role.guard.js';
 
 @Module({
   imports: [],
@@ -18,13 +18,10 @@ import { RolesGuard } from '../../common/guards/role.guard.js';
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
+
     DeliveryRepository,
   ],
-  controllers: [DeliveryController],
+  controllers: [DeliveryAdminController, DeliveryDriverController],
   exports: [DeliveryService, 'IDeliveryRepository'],
 })
 export class DeliveryModule {}

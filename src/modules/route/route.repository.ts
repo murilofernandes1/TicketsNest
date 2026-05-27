@@ -39,7 +39,7 @@ export class RouteRepository implements RouteInterface {
 
   async updateStatus(data: UpdateStatus): Promise<RouteResponse> {
     return this.prisma.route.update({
-      where: { id: data.id },
+      where: { id: data.routeId },
       data: { status: data.status },
     });
   }

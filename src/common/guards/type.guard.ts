@@ -8,10 +8,9 @@ export class TypeGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredTypes = this.reflector.getAllAndOverride<['DRIVER' | 'USER']>(
-      TYPES_KEY,
-      [context.getHandler(), context.getClass()],
-    );
+    const requiredTypes = this.reflector.getAllAndOverride<
+      ['DRIVER' | 'ADMIN']
+    >(TYPES_KEY, [context.getHandler(), context.getClass()]);
     if (!requiredTypes) {
       return true;
     }
